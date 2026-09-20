@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Projector Test Report Builder</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<nav class="portal-nav"><a href="../../">Product Testing</a><span>›</span><a href="../">Projector</a><span>›</span><strong>New Projector Testing Report</strong></nav>
+<header class="topbar">
+  <div>
+    <h1>Projector Test Report Builder</h1>
+    <p>Enter test data, upload photos, review calculated results, then generate the Word report.</p>
+  </div>
+  <button id="generateTop" class="primary">Generate Word Report</button>
+</header>
+
+<main class="container">
+  <div id="status" class="status hidden"></div>
+
+  <section class="card">
+    <h2>1. Basic Information</h2>
+    <div class="grid two">
+      <label>Factory / Supplier<input id="supplier" value=""></label>
+      <label>Factory Model No.<input id="factory_model" value=""></label>
+      <label>Product Type
+        <select id="product_type"><option>LCD</option><option>DLP</option><option>Other</option></select>
+      </label>
+      <label>Target Segment
+        <select id="target_segment"><option>Entry</option><option>Mid</option><option>Premium</option></select>
+      </label>
+      <label>MOQ (pcs)<input id="moq" type="text"></label>
+      <label>Quoted FOB Price<input id="fob_price" type="number" step="0.01"><span class="inline-select"><select id="currency"><option>USD</option><option>RMB</option><option>EUR</option><option>INR</option></select></span></label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>2. Projector Calculations</h2>
+    <p class="hint">Brightness readings are in lux. The website converts screen dimensions and throw distance to metres automatically.</p>
+    <div class="measurement-grid">
+      <div class="screen-panel">
+        <h3>9-point brightness test</h3>
+        <div class="point-grid">
+          <label>Top Left<input class="lux" id="lux_tl" type="number" min="0" step="0.01"></label>
+          <label>Top Center<input class="lux" id="lux_tc" type="number" min="0" step="0.01"></label>
+          <label>Top Right<input class="lux" id="lux_tr" type="number" min="0" step="0.01"></label>
+          <label>Middle Left<input class="lux" id="lux_ml" type="number" min="0" step="0.01"></label>
+          <label>Center<input class="lux center" id="lux_c" type="number" min="0" step="0.01"></label>
+          <label>Middle Right<input class="lux" id="lux_mr" type="number" min="0" step="0.01"></label>
+          <label>Bottom Left<input class="lux" id="lux_bl" type="number" min="0" step="0.01"></label>
+          <label>Bottom Center<input class="lux" id="lux_bc" type="number" min="0" step="0.01"></label>
+          <label>Bottom Right<input class="lux" id="lux_br" type="number" min="0" step="0.01"></label>
+        </div>
+      </div>
+      <div class="screen-panel">
+        <h3>Screen & projector geometry</h3>
+        <div class="grid two">
+          <label>Screen Width<input id="screen_width" type="number" min="0" step="0.01"><span class="unit">cm</span></label>
+          <label>Screen Height<input id="screen_height" type="number" min="0" step="0.01"><span class="unit">cm</span></label>
+          <label>Projector-to-screen Distance<input id="throw_distance" type="number" min="0" step="0.01"><span class="unit">cm</span></label>
+        </div>
+        <div class="results">
+          <div><span>Average brightness</span><strong id="avg_lux">—</strong><small>lux</small></div>
+          <div><span>Screen area</span><strong id="area_m2">—</strong><small>m²</small></div>
+          <div><span>ANSI lumens</span><strong id="ansi">—</strong><small>lm</small></div>
+          <div><span>Brightness uniformity</span><strong id="uniformity">—</strong><small>%</small></div>
+          <div><span>Throw ratio</span><strong id="throw_ratio">—</strong><small>:1</small></div>
+        </div>
+      </div>
+    </div>
+    <div class="formula-box">
+      <b>Calculations used</b>
+      <div>ANSI lumens = average of 9 brightness readings × screen area (m²)</div>
+      <div>Uniformity = average of 4 corner readings ÷ center reading × 100</div>
+      <div>Throw ratio = projector-to-screen distance ÷ screen width</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>3. Technical Parameters</h2>
+    <div class="grid two">
+      <label>Native Resolution<input id="native_resolution"></label>
+      <label>LCD Size<input id="lcd_size"></label>
+      <label>Keystone / Auto Focus<input id="keystone_focus"></label>
+      <label>Mainboard<input id="mainboard"></label>
+      <label>RAM / ROM<input id="ram_rom"></label>
+      <label>CPU<input id="cpu"></label>
+      <label>GPU<input id="gpu"></label>
+      <label>OS / UI Version<input id="os_ui"></label>
+      <label>Wi-Fi / Bluetooth<input id="wifi_bt"></label>
+      <label>HDMI / USB / AV<input id="ports"></label>
+      <label>Speaker<input id="speaker"></label>
+      <label>Power Consumption<input id="power_consumption"></label>
+      <label>Lens / Optical Structure<input id="lens_optical"></label>
+      <label>Video Support<input id="video_support"></label>
+      <label>BT Remote<input id="bt_remote"></label>
+      <label>Firmware Version<input id="firmware"></label>
+    </div>
+    <h3>Screen Cast</h3>
+    <div class="grid four">
+      <label>Android<input id="cast_android"></label>
+      <label>Windows<input id="cast_windows"></label>
+      <label>iOS<input id="cast_ios"></label>
+      <label>Mac<input id="cast_mac"></label>
+    </div>
+    <h3>OTT Testing</h3>
+    <div class="grid two">
+      <label>YouTube<input id="ott_youtube"></label>
+      <label>Other OTT / Notes<input id="ott_other"></label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>4. Test Results</h2>
+    <div class="test-grid">
+      <div class="test-card"><label>Ghosting remarks<textarea id="ghosting_remarks"></textarea></label><div class="passfail"><label><input type="radio" name="ghosting" value="pass" checked> Pass</label><label><input type="radio" name="ghosting" value="fail"> Fail</label></div></div>
+      <div class="test-card"><label>Focus Clarity Quality (VTOP)<textarea id="focus_remarks"></textarea></label><div class="passfail"><label><input type="radio" name="focus" value="pass" checked> Pass</label><label><input type="radio" name="focus" value="fail"> Fail</label></div></div>
+      <div class="test-card"><label>Resolution Test remarks<textarea id="resolution_remarks"></textarea></label><div class="passfail"><label><input type="radio" name="resolution" value="pass" checked> Pass</label><label><input type="radio" name="resolution" value="fail"> Fail</label></div></div>
+      <div class="test-card"><label>Light Leakage / Bright Spots remarks<textarea id="leakage_remarks"></textarea></label><div class="passfail"><label><input type="radio" name="leakage" value="pass" checked> Pass</label><label><input type="radio" name="leakage" value="fail"> Fail</label></div></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>5. Pictures</h2>
+    <p class="hint">The report template has fixed image positions. Upload the corresponding photo for each position. JPG and PNG photos are embedded at their original resolution and encoding; unfilled positions remain as blank placeholders.</p>
+    <div id="photoGrid" class="photo-grid"></div>
+  </section>
+
+  <section class="card">
+    <h2>6. Final Evaluation & Sign-off</h2>
+    <label>Final Evaluation – Point 1<textarea id="final_eval1"></textarea></label>
+    <label>Final Evaluation – Point 2<textarea id="final_eval2"></textarea></label>
+    <div class="grid two">
+      <label>Tested By<input id="tested_by"></label>
+      <label>Date<input id="test_date" type="date"></label>
+    </div>
+  </section>
+
+  <div class="bottom-actions">
+    <button id="generate" class="primary big">Generate Word Report</button>
+    <button id="reset" class="secondary">Reset Form</button>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

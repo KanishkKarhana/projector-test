@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Projector Pre-Shipment Inspection Builder</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<nav class="portal-nav"><a href="../../">Product Testing</a><span>›</span><a href="../">Projector</a><span>›</span><strong>Pre-Dispatch Inspection</strong></nav>
+<header class="topbar">
+  <div>
+    <h1>Projector Pre-Shipment Inspection</h1>
+    <p>Mobile & laptop inspection form → standardized Word report</p>
+  </div>
+  <div class="top-actions">
+    <button class="secondary" id="loadDemo">Load Example</button>
+    <button class="primary" id="generate">Generate Word Report</button>
+  </div>
+</header>
+
+<main class="container">
+<section class="card">
+  <h2>1. General Information</h2>
+  <div class="grid">
+    <label>Report Number<input id="reportNumber" placeholder="e.g. PSI-2026-001"></label>
+    <label>Inspection Date<input id="inspectionDate" type="date"></label>
+    <label>PI Number<input id="piNumber"></label>
+    <label>Supplier<input id="supplier"></label>
+    <label>Factory Location<input id="factoryLocation"></label>
+    <label>Inspection Level
+      <select id="level">
+        <option value="I">General Level 1</option>
+        <option value="II" selected>General Level 2</option>
+        <option value="III">General Level 3</option>
+      </select>
+    </label>
+    <label>QC Inspector<input id="inspector"></label>
+    <label>Report Approved By<input id="approvedBy"></label>
+  </div>
+</section>
+
+<section class="card">
+  <h2>2. Order & AQL Sampling</h2>
+  <div class="grid">
+    <label>PI #<input id="orderPi"></label>
+    <label>Item #<input id="itemNo"></label>
+    <label>Product Description<input id="productDescription" value="Projector"></label>
+    <label>Batch / Order Quantity<input id="orderQty" type="number" min="2" step="1" placeholder="e.g. 1000"></label>
+    <label>Declared Quantity<input id="declaredQty" type="number" min="0" step="1"></label>
+  </div>
+  <div class="sampling-result">
+    <div><span>Code Letter</span><strong id="codeLetter">—</strong></div>
+    <div><span>Units to Inspect</span><strong id="sampleSize">—</strong></div>
+    <div><span>Major Ac/Re</span><strong id="majorAcRe">—</strong></div>
+    <div><span>Minor Ac/Re</span><strong id="minorAcRe">—</strong></div>
+    <div><span>Critical Ac/Re</span><strong id="criticalAcRe">0 / 1</strong></div>
+  </div>
+  <p class="hint">Sampling uses normal single sampling, General Inspection Level I/II/III, with Critical AQL 0, Major AQL 2.5 and Minor AQL 4.0. The 1000-piece / Level II example gives code J and 80 units.</p>
+</section>
+
+<section class="card">
+  <h2>3. Inspection Result Summary</h2>
+  <div class="table-scroll">
+  <table class="summary-table">
+    <thead><tr><th>Sr.</th><th>Description</th><th>Result</th><th>Remarks</th></tr></thead>
+    <tbody id="summaryRows"></tbody>
+  </table>
+  </div>
+</section>
+
+<section class="card">
+  <h2>4. Acceptance Quality Level</h2>
+  <div class="grid three">
+    <label>Critical AQL<input id="aqlCritical" value="0"></label>
+    <label>Major AQL<input id="aqlMajor" value="2.5"></label>
+    <label>Minor AQL<input id="aqlMinor" value="4.0"></label>
+    <label>Critical defects found<input id="foundCritical" type="number" min="0" value="0"></label>
+    <label>Major defects found<input id="foundMajor" type="number" min="0" value="0"></label>
+    <label>Minor defects found<input id="foundMinor" type="number" min="0" value="0"></label>
+  </div>
+  <div class="aql-box" id="aqlStatus">Enter the batch quantity to calculate the AQL plan.</div>
+</section>
+
+<section class="card">
+  <h2>5. Quantity</h2>
+  <div class="grid four">
+    <label>Item Name<input id="qtyItem" value="Projector"></label>
+    <label>Order Quantity<input id="qtyOrder" type="number"></label>
+    <label>Observed Quantity<input id="qtyObserved" type="number"></label>
+    <label>Delta<input id="qtyDelta" readonly></label>
+  </div>
+</section>
+
+<section class="card">
+  <h2>6. Packaging & Labeling</h2>
+  <div class="table-scroll">
+  <table><thead><tr><th>Description</th><th>Findings</th><th>Result</th><th>Notes</th></tr></thead>
+  <tbody id="packRows"></tbody></table>
+  </div>
+</section>
+
+<section class="card">
+  <h2>7. Workmanship</h2>
+  <div class="table-scroll">
+  <table><thead><tr><th>Defect / Observation</th><th>Critical</th><th>Major</th><th>Minor</th></tr></thead>
+  <tbody id="workRows"></tbody></table>
+  </div>
+</section>
+
+<section class="card">
+  <h2>8. Measurement</h2>
+  <div class="table-scroll">
+  <table>
+    <thead><tr><th rowspan="2">Item</th><th colspan="3">Size</th><th colspan="3">Weight</th></tr>
+    <tr><th>Specification</th><th>Measured</th><th>Result</th><th>Specification</th><th>Measured</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>Master Carton</td><td><input data-meas="mc-size-spec"></td><td><input data-meas="mc-size-meas"></td><td><select data-meas="mc-size-result"><option></option><option>OK</option><option>NOT OK</option></select></td><td><input data-meas="mc-weight-spec"></td><td><input data-meas="mc-weight-meas"></td><td><select data-meas="mc-weight-result"><option></option><option>OK</option><option>NOT OK</option></select></td></tr>
+      <tr><td>Gift Box</td><td><input data-meas="gb-size-spec"></td><td><input data-meas="gb-size-meas"></td><td><select data-meas="gb-size-result"><option></option><option>OK</option><option>NOT OK</option></select></td><td><input data-meas="gb-weight-spec"></td><td><input data-meas="gb-weight-meas"></td><td><select data-meas="gb-weight-result"><option></option><option>OK</option><option>NOT OK</option></select></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="card">
+  <div class="section-head">
+    <div>
+      <h2>9. On-Site Testing</h2>
+      <p class="hint">The unit columns automatically follow the AQL sample size. Use the buttons for rapid OK / NOT OK recording.</p>
+    </div>
+    <label class="brightness-range">Acceptable brightness range (ANSI lumens)
+      <input id="brightnessRange" placeholder="e.g. 700-850">
+    </label>
+  </div>
+  <div class="legend"><span class="dot ok"></span> OK <span class="dot bad"></span> NOT OK <span class="dot empty"></span> Not recorded</div>
+  <div id="inspectionGrid" class="inspection-grid"></div>
+</section>
+
+<section class="card">
+  <h2>10. Test After Ageing for 2 Hours</h2>
+  <div id="ageingRows" class="ageing"></div>
+</section>
+
+<section class="card">
+  <h2>11. Remarks</h2>
+  <textarea id="remarks" rows="6" placeholder="Enter final inspection remarks..."></textarea>
+</section>
+
+<section class="card">
+  <h2>12. Defect Classification / Final AQL Result</h2>
+  <p class="hint">Critical, major and minor defect counts are recorded above. The generated report fills the Acceptance Quality Level section and the AQL result automatically.</p>
+  <div id="finalResult" class="aql-box">—</div>
+</section>
+</main>
+
+<div id="toast" class="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
